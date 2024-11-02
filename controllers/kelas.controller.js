@@ -1,6 +1,20 @@
 const { kelas } = require('../models');
 const Sequelize = require('sequelize');
 
+/**
+ * Fetches all classes from the database, with optional filtering and sorting.
+ *
+ * This function accepts the following query parameters:
+ *
+ * - `kategori`: The ID of the category to filter by.
+ * - `sortBy`: The field to sort by. If not provided, defaults to `KelasID`.
+ * - `sortOrder`: The direction of the sort. If not provided, defaults to `asc`.
+ * - `search`: A search string to filter classes by name.
+ *
+ * @param {import('express').Request} req Express request object.
+ * @param {import('express').Response} res Express response object.
+ * @returns {Promise<void>}
+ */
 const getAllKelas = async (req, res) => {
     try {
         const { kategori, sortBy, sortOrder, search } = req.query;
@@ -35,6 +49,13 @@ const getAllKelas = async (req, res) => {
     }
 };
 
+/**
+ * Fetches a class by its ID from the database.
+ *
+ * @param {import('express').Request} req Express request object.
+ * @param {import('express').Response} res Express response object.
+ * @returns {Promise<void>}
+ */
 const getKelasById = async (req, res) => {
     const id = req.params.id;
     try {
@@ -49,6 +70,19 @@ const getKelasById = async (req, res) => {
     }
 };
 
+/**
+ * Creates a newKelas in the database.
+ *
+ * @param {import('express').Request} req Express request object.
+ * @param {import('express').Response} res Express response object.
+ *
+ * @returns {Promise<void>}
+ *
+ * This function takes the request body's NamaKelas, Deskripsi, KategoriKelasID, TutorID and Harga, and attempts to create a new class in the database.
+ * If a class with the same name already exists, a 400 error is sent.
+ * Otherwise, a new class is created, and a 201 success message is sent.
+ * If an error occurs, a 500 error is sent.
+ */
 const createKelas = async (req, res) => {
     const { NamaKelas, Deskripsi, KategoriKelasID, TutorID, Harga } = req.body;
 
@@ -71,6 +105,19 @@ const createKelas = async (req, res) => {
     }
 };
 
+/**
+ * Updates a class in the database.
+ *
+ * @param {import('express').Request} req Express request object.
+ * @param {import('express').Response} res Express response object.
+ *
+ * @returns {Promise<void>}
+ *
+ * This function takes the request body's NamaKelas, Deskripsi, KategoriKelasID, TutorID and Harga, and attempts to update a class in the database.
+ * If the class is not found, a 404 error is sent.
+ * Otherwise, the class is updated, and a 200 success message is sent.
+ * If an error occurs, a 500 error is sent.
+ */
 const updateKelas = async (req, res) => {
     const id = req.params.id;
     try {
@@ -91,6 +138,19 @@ const updateKelas = async (req, res) => {
     }
 };
 
+/**
+ * Deletes a class by its ID from the database.
+ *
+ * @param {import('express').Request} req Express request object.
+ * @param {import('express').Response} res Express response object.
+ *
+ * @returns {Promise<void>}
+ *
+ * This function attempts to delete a class in the database.
+ * If the class is not found, a 404 error is sent.
+ * Otherwise, the class is deleted, and a 200 success message is sent with the deleted class's ID.
+ * If an error occurs, a 500 error is sent.
+ */
 const deleteKelas = async (req, res) => {
     const id = req.params.id;
     try {
@@ -108,6 +168,18 @@ const deleteKelas = async (req, res) => {
     }
 };
 
+/**
+ * Handles the uploading of an image file.
+ *
+ * @param {import('express').Request} req - Express request object containing the uploaded file.
+ * @param {import('express').Response} res - Express response object used to send the response.
+ *
+ * @returns {Promise<void>} - A promise that resolves when the image has been uploaded or an error has occurred.
+ *
+ * This function checks if an image file is present in the request. If no image file is uploaded, a 400 error is sent.
+ * If the image file is uploaded successfully, a 200 success message is sent along with the image URL.
+ * If an error occurs during the upload process, a 500 error is sent.
+ */
 const uploadImage = async (req, res) => {
     const imageFile = req.file;
     if (!imageFile) {
