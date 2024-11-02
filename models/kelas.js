@@ -34,6 +34,10 @@ module.exports = function(sequelize, DataTypes) {
     Harga: {
       type: DataTypes.DECIMAL(10,2),
       allowNull: false
+    },
+    ImageUrl: {
+      type: DataTypes.STRING(255),
+      allowNull: true
     }
   }, {
     sequelize,

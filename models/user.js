@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('user', {
     UserID: {
       autoIncrement: true,
@@ -7,9 +7,14 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    Nama: {
+    Fullname: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    Username: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      unique: "Username"
     },
     Email: {
       type: DataTypes.STRING(100),
@@ -19,6 +24,14 @@ module.exports = function(sequelize, DataTypes) {
     Password: {
       type: DataTypes.STRING(255),
       allowNull: false
+    },
+    VerificationToken: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    Verified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, {
     sequelize,
@@ -31,6 +44,14 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "UserID" },
+        ]
+      },
+      {
+        name: "Username",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "Username" },
         ]
       },
       {
